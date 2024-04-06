@@ -1,2 +1,2 @@
-# Game_Ping_Pong
+# Game Ping-Pong
 
