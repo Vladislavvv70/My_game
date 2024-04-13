@@ -9,7 +9,7 @@ win_h = 980
 main_win = display.set_mode((win_w,win_h))
 display.set_caption('Шутер')
 
-background = transform.scale(image.load('Background.png'), (win_w, win_h))
+background = transform.scale(image.load('galaxy.jpg'), (win_w, win_h))
 
 
 
@@ -27,12 +27,21 @@ class GameSprite(sprite.Sprite):
         main_win.blit(self.image, (self.rect.x, self.rect.y))
 
 class Player(GameSprite):
-    def update(self):
+    def update1(self):
         key_pressed = key.get_pressed()     
-        if key_pressed[K_a] and self.rect.x > 5:
-            self.rect.x -= self.speed
-        if key_pressed[K_d] and self.rect.x < 625:
-            self.rect.x += self.speed
+        if key_pressed[K_w] and self.rect.y > 10:
+            self.rect.y -= self.speed
+        if key_pressed[K_s] and self.rect.y < 783:
+            self.rect.y += self.speed
+    def update2(self):
+        key_pressed = key.get_pressed()     
+        if key_pressed[K_UP] and self.rect.y > 10:
+            self.rect.y -= self.speed
+        if key_pressed[K_DOWN] and self.rect.y < 783:
+            self.rect.y += self.speed
+
+player_1 = Player('white.png', 30, 196, 15, 100, 325, 0)
+player_2 = Player('white.png', 30, 196, 15, 1340, 325, 0)
 
 game = True
 finish = False
@@ -46,7 +55,13 @@ while game:
             game = False
 
     main_win.blit(background, (0, 0))
+    
+    player_1.update1()
+    player_2.update2()
+
+    player_1.reset()
+    player_2.reset()
 
 
     display.update()      
-    clock.tick(FPS)              
+    clock.tick(FPS)                     
