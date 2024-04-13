@@ -1,5 +1,5 @@
 from pygame import *
-from random import randint
+from random import randint, choice
 from time import time as timer
 mixer.init()
 
@@ -31,17 +31,29 @@ class Player(GameSprite):
         key_pressed = key.get_pressed()     
         if key_pressed[K_w] and self.rect.y > 10:
             self.rect.y -= self.speed
-        if key_pressed[K_s] and self.rect.y < 783:
+        if key_pressed[K_s] and self.rect.y < 778:
             self.rect.y += self.speed
     def update2(self):
         key_pressed = key.get_pressed()     
         if key_pressed[K_UP] and self.rect.y > 10:
             self.rect.y -= self.speed
-        if key_pressed[K_DOWN] and self.rect.y < 783:
+        if key_pressed[K_DOWN] and self.rect.y < 778:
             self.rect.y += self.speed
+
+class Ball(GameSprite):
+    def update(self):
+        self.rect.y += self.speed
+        self.rect.x += self.s2
+        if self.rect.y >= 950:
+            self.speed *= -1
+        if self.rect.y <= 0:
+            self.speed *= -1
+
+
 
 player_1 = Player('white.png', 30, 196, 15, 100, 325, 0)
 player_2 = Player('white.png', 30, 196, 15, 1340, 325, 0)
+ball = Ball('white.png', 30, 30, choice([10, -10]), 690, 460, choice([10, -10]))
 
 game = True
 finish = False
@@ -58,10 +70,12 @@ while game:
     
     player_1.update1()
     player_2.update2()
+    ball.update()
 
     player_1.reset()
     player_2.reset()
-
+    ball.reset()
+    
 
     display.update()      
-    clock.tick(FPS)                     
+    clock.tick(FPS)              
